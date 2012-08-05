@@ -75,4 +75,4 @@ Machine.defined_as do
  #     enter :A
     end
   end
-end.run
+end
