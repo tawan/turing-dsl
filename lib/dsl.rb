@@ -16,6 +16,8 @@ module DSL
   end
 
   module InstanceMethods
+		attr_reader :initial_state
+
     def in_state(state, &block)
       @state_collector = Hash.new
       instance_eval &block
