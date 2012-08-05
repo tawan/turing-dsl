@@ -1,10 +1,18 @@
 module DSL
   module ClassMethods
-    def defined_as(&block)
+    def defined_as(name = :turing, &block)
+			@@instances ||= Hash.new
+
       m = new
       m.instance_eval(&block)
+
+			@@instances[name] = m
       return m
     end
+		
+		def find(name)
+			@@instances[name]
+		end
   end
 
   module InstanceMethods
