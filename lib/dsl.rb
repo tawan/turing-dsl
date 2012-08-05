@@ -1,22 +1,22 @@
 module DSL
   module ClassMethods
     def defined_as(name = :turing, &block)
-                        @@instances ||= Hash.new
+			@@instances ||= Hash.new
 
       m = new
       m.instance_eval(&block)
 
-                        @@instances[name] = m
+			@@instances[name] = m
       return m
     end
-                
-                def find(name)
-                        @@instances[name]
-                end
+		
+		def find(name)
+			@@instances[name]
+		end
   end
 
   module InstanceMethods
-                attr_reader :initial_state
+		attr_reader :initial_state
 
     def in_state(state, &block)
       @state_collector = Hash.new
