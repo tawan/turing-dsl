@@ -1,3 +1,5 @@
+require 'tape.rb'
+
 class Machine
   class << self
     def defined_as(name = :turing, &block)
@@ -16,6 +18,12 @@ class Machine
   end
 
   attr_reader :initial_state
+
+  def tape=(tape)
+    unless tape.is_a? Tape
+      raise TypeError, "wrong argument type (#{tape.class.name}), expected #{Tape.name}"
+    end
+  end
 
   def in_state(state, &block)
     @state_collector = Hash.new

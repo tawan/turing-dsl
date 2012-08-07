@@ -14,6 +14,11 @@ describe Machine do
     m = Machine.defined_as {}
   end
 
+  it "can only be fed with a tape" do
+    lambda { @sample.tape=("0000") }.should raise_error
+    lambda { @sample.tape=(Tape.new) }.should_not raise_error
+  end
+
   describe "defined" do
     it "can have a name"do
       with_name = Machine.defined_as(:turing) {}
