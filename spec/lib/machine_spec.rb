@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe Machine do
+  before(:each) do
+    @sample = Machine.defined_as do
+      in_state :A do
+        on "0" do end
+        on "1"do end
+      end
+    end
+  end
+
   it "can be defined" do
     m = Machine.defined_as {}
   end
