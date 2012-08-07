@@ -16,7 +16,9 @@ describe Machine do
 
   it "can only be fed with a tape" do
     lambda { @sample.tape=("0000") }.should raise_error
-    lambda { @sample.tape=(Tape.new) }.should_not raise_error
+    tape = double("Tape")
+    tape.stub(:is_a? => Tape)
+    lambda { @sample.tape=(tape) }.should_not raise_error
   end
 
   describe "defined" do
