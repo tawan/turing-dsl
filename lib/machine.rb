@@ -29,14 +29,6 @@ class Machine
     @state_collector[symbol] = block
   end
 
-  def run
-    @current_state = @initial_state
-    @tape = " "
-    @position = 0
-    step
-    puts @tape
-  end
-
   def step
     @states[@current_state][@tape[@position]].call
   end
