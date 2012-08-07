@@ -36,10 +36,10 @@ describe DSL do
       end.initial_state.should eq(:initial)
     end
 
-    it "'s states can have defined instructions" do
+    it "'s states can have defined instructions on read symbol" do
       SampleBaseClass.defined_as do
         in_state :A do
-          on "0"do end
+          on "0" do end
         end
       end
     end
