@@ -44,35 +44,3 @@ class Machine
 
   end
 end
-
-Machine.defined_as do
-  in_state :A do
-    on " " do
-      print "0"
-      move :right
-      enter :B
-    end
-  end
-
-  in_state :B do
-    on " " do
-      move :right
-      enter :C
-    end
-  end
-
-  in_state :C do
-    on " " do
-      print "1"
-      move :right
-      enter :D
-    end
-  end
-
-  in_state :D do
-    on " " do
-      move :right
- #     enter :A
-    end
-  end
-end
