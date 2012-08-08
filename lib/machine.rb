@@ -19,6 +19,12 @@ class Machine
 
   attr_reader :initial_state
 
+  def method_missing(method_name, *args)
+    if /^move_/ =~ method_name.to_s
+      move(method_name.to_s.sub(/move_/, ''))
+    end
+  end
+
   def head_at_position(position)
     @position = position
     self
@@ -32,6 +38,7 @@ class Machine
     unless tape.is_a? Tape
       raise TypeError, "wrong argument type (#{tape.class.name}), expected #{Tape.name}"
     end
+    @tape = tape
   end
 
   def in_state(state, &block)
@@ -50,7 +57,7 @@ class Machine
     @states[@current_state][@tape[@position]].call
   end
 
-  def print(symbol)
+  def write(symbol)
     @tape[@position] = symbol
   end
 
@@ -59,13 +66,6 @@ class Machine
       @position += 1
     else
       @position -= 1
-    end
-
-    if @position < 0 then
-      @tape.prepend " "
-      @position = 0
-    elsif @tape[@position].nil?
-      @tape << " "
     end
   end
 

@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe Machine do
   before(:each) do
+    tape = double("Tape")
+    tape.stub(:[]=)
+    tape.stub(:is_a? => Tape)
     @sample = Machine.defined_as do
+      head_at_position(0).of tape
       in_state :A do
         on "0" do end
         on "1"do end
@@ -35,7 +39,7 @@ describe Machine do
       Machine.defined_as do
         in_state(:A) {}
         in_state(:B) {}
-      end  
+      end
     end
 
     it "should have an initial state" do
@@ -59,6 +63,15 @@ describe Machine do
       Machine.defined_as do
         head_at_position(0).of tape
       end
+    end
+
+    it "can print on a tape" do
+      @sample.write(1)
+    end
+
+    it "can move left and right" do
+      @sample.move_left
+      @sample.move_right
     end
   end
 end
