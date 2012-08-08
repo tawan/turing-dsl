@@ -53,10 +53,6 @@ class Machine
     @state_collector[symbol] = block
   end
 
-  def step
-    @states[@current_state][@tape[@position]].call
-  end
-
   def write(symbol)
     @tape[@position] = symbol
   end
@@ -71,10 +67,6 @@ class Machine
 
   def enter(state)
     @current_state = state
-    step
-  end
-
-  def halt!
-
+    @states[@current_state][@tape[@position]].call
   end
 end
