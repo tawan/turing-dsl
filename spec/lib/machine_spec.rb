@@ -52,5 +52,13 @@ describe Machine do
         end
       end
     end
+
+    it "can put it's head on a tape" do
+      tape = double("Tape")
+      tape.stub(:is_a? => Tape)
+      Machine.defined_as do
+        head_at_position(0).of tape
+      end
+    end
   end
 end

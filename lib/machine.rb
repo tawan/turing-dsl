@@ -19,6 +19,15 @@ class Machine
 
   attr_reader :initial_state
 
+  def head_at_position(position)
+    @position = position
+    self
+  end
+
+  def of(tape)
+    self.tape = tape
+  end
+
   def tape=(tape)
     unless tape.is_a? Tape
       raise TypeError, "wrong argument type (#{tape.class.name}), expected #{Tape.name}"
