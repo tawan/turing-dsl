@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Tape do
+  before(:each) do
+    @sample = Tape.with_blank_symbol("0").and_input_symbols("1") do
+      "01"
+    end
+  end
+
   it "has blank symbol" do
     Tape.with_blank_symbol('0').blank_symbol.should eq('0')
   end
@@ -23,8 +29,8 @@ describe Tape do
     tape = Tape.with_blank_symbol("0").and_input_symbols("1") do
       "001111"
     end
-    tape.read(1).should eq("0")
-    tape.read(2).should eq("1")
+    tape[1].should eq("0")
+    tape[2].should eq("1")
 
     lambda do
       Tape.with_blank_symbol("0").and_input_symbols("1") do
@@ -34,8 +40,28 @@ describe Tape do
   end
 
   it "should return the blank symbol on default" do
-    Tape.with_blank_symbol("b").read(0).should eq("b")
-    Tape.with_blank_symbol("b").read(1).should eq("b")
-    Tape.with_blank_symbol("b").read(-1).should eq("b")
+    Tape.with_blank_symbol("b")[0].should eq("b")
+    Tape.with_blank_symbol("b")[1].should eq("b")
+    Tape.with_blank_symbol("b")[-1].should eq("b")
+  end
+
+  it "can be written on" do
+    @sample[0] = "1"
+    @sample[0].should  eq("1")
+    lambda { @sample[0] = "x" }.should raise_error
+
+  end
+
+  it "expand with blank symbols if written out of index" do
+    @sample[3] = "1"
+    @sample[2].should eq("0")
+    @sample[3].should eq("1")
+
+    @sample[-3] = "1"
+    @sample[-2] = "1"
+    @sample[5] = "1"
+    @sample[-1].should eq("0")
+    @sample[-2].should eq("1")
+    @sample.send(:str).should eq("110010101")
   end
 end
