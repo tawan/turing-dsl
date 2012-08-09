@@ -16,7 +16,8 @@ class Tape
   attr_accessor :blank_symbol, :input_symbols
 
   def initialize
-    @offset = 0
+    @pos_str = ""
+    @neg_str = ""
   end
 
   def method_missing(method_name, *args, &block)
@@ -37,25 +38,35 @@ class Tape
   end
 
   def [](position)
-    @str = blank_symbol and return blank_symbol if @str.nil?
-    return blank_symbol if @str[position + @offset].nil?
-    @str[position + @offset]
+    @pos_str = blank_symbol and return blank_symbol if str.empty?
+    if (position >= 0)
+      return blank_symbol if @pos_str[position].nil?
+      return @pos_str[position]
+    else
+      return blank_symbol if @neg_str[position.abs - 1].nil?
+      return @neg_str[position.abs - 1]
+    end
   end
 
   def []=(position, symbol)
     validate!(symbol) 
-    if @str.size <= (position + @offset)
-      @str << blank_symbol * ((position + @offset) - @str.size)
-      @str << symbol
-    elsif position < 0
-      if (position.abs > @offset)
-        @str.insert(0, blank_symbol * (position.abs - @offset))
-        @offset = position.abs
-      end
-      @str[@offset - position.abs] = symbol
+    if position >= 0
+      diff = position - @pos_str.size
+      @pos_str << blank_symbol * diff if diff > 0
+      @pos_str[position] = symbol
     else
-      @str[position + @offset] = symbol
+      diff = position.abs - 1 - @neg_str.size
+      @neg_str << blank_symbol * diff if diff > 0
+      @neg_str[position.abs - 1] = symbol
     end
+  end
+
+  def inspect
+    str
+  end
+
+  def to_s
+    str
   end
 
   private
@@ -64,14 +75,14 @@ class Tape
     new_str.each_char do |c|
       validate!(c)
     end
-    @str = new_str
+    @pos_str = new_str
   end
 
 
   def validate!(symbol)
     if alphabet[symbol].nil? 
       raise StandardError,
-        "#{c} is not in the accepted alphabet (#{alphabet})of the defined machhine!"
+        "#{symbol} is not in the accepted alphabet (#{alphabet})of the defined machhine!"
     end
   end
 
@@ -80,6 +91,7 @@ class Tape
   end
 
   def str
-    @str
+    @pos_str << blank_symbol if @pos_str.empty?
+    @neg_str.reverse + @pos_str
   end
 end

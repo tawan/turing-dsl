@@ -1,4 +1,4 @@
-require 'tape.rb'
+require File.expand_path(File.dirname(__FILE__) + '/tape.rb')
 
 class Machine
   class << self
@@ -18,15 +18,10 @@ class Machine
   end
 
   attr_reader :initial_state
-
-  def method_missing(method_name, *args)
-    if /^move_/ =~ method_name.to_s
-      move(method_name.to_s.sub(/move_/, ''))
-    end
-  end
+  attr_accessor :position
 
   def head_at_position(position)
-    @position = position
+    self.position = position
     self
   end
 
@@ -43,7 +38,7 @@ class Machine
 
   def in_state(state, &block)
     @state_collector = Hash.new
-    instance_eval &block
+    instance_eval(&block)
     @states ||= Hash.new
     @states[state] = @state_collector
     @initial_state ||= state
@@ -54,19 +49,21 @@ class Machine
   end
 
   def write(symbol)
-    @tape[@position] = symbol
+    @tape[self.position] = symbol
   end
 
-  def move(direction)
-    if direction == :right then
-      @position += 1
-    else
-      @position -= 1
-    end
+  def move_right
+    self.position += 1
+  end
+
+  def move_left
+    self.position -= 1
   end
 
   def enter(state)
+    puts @tape.to_s
+    sleep 0.1
     @current_state = state
-    @states[@current_state][@tape[@position]].call
+    @states[@current_state][@tape[self.position]].call
   end
 end
