@@ -65,7 +65,6 @@ class Machine
   end
 
   def enter(state)
-    puts @tape.to_s
     sleep 0.1
     @current_state = state
     @states[@current_state][@tape[self.position]].call

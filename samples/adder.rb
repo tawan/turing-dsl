@@ -34,7 +34,6 @@ Machine.defined_as(:adder) do
 
     on "1" do
       erase
-      puts @tape.to_s
     end
   end
 end.enter 1

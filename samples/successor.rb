@@ -5,7 +5,6 @@ Machine.defined_as(:successor) do
   
   in_state 1 do
     on "0" do
-      puts @tape.to_s
     end
 
     on "1" do
@@ -115,7 +114,6 @@ Machine.defined_as(:successor) do
 
   in_state 10 do
     on "0" do
-      puts @tape.to_s
     end
 
     on "1" do
@@ -128,7 +126,6 @@ Machine.defined_as(:successor) do
   in_state 11 do
     on "0" do
       write "1"
-      puts @tape.to_s
     end
 
     on "1" do
