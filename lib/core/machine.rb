@@ -60,6 +60,10 @@ class Machine
     self.position -= 1
   end
 
+  def erase
+    @tape[self.position] = @tape.blank_symbol
+  end
+
   def enter(state)
     puts @tape.to_s
     sleep 0.1
