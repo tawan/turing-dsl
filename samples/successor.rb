@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/lib/machine.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/core/machine.rb')
 
 Machine.defined_as(:successor) do
   head_at_position(7).of Tape.with_blank_symbol("0").and_input_symbols("1") { "11111111000" }
@@ -133,4 +133,4 @@ Machine.defined_as(:successor) do
       enter 11
     end
   end
-end.enter 1
+end
