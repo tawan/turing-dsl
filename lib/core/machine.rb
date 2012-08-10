@@ -2,18 +2,22 @@ require File.expand_path(File.dirname(__FILE__) + '/tape.rb')
 
 class Machine
   class << self
+    attr_reader :instances
+
     def defined_as(name = :turing, &block)
-      @@instances ||= Hash.new
+      @instances ||= Hash.new
 
       m = new
       m.instance_eval(&block)
 
-      @@instances[name] = m
+      @instances[name] = m
+      @instances.default = m
       return m
     end
 
-    def find(name)
-      @@instances[name]
+    def find(name = nil)
+      return @instances.default if name.nil?
+      @instances[name]
     end
   end
 
@@ -67,6 +71,7 @@ class Machine
   def enter(state)
     sleep 0.1
     @current_state = state
+    puts @tape.to_s
     @states[@current_state][@tape[self.position]].call
   end
 end
