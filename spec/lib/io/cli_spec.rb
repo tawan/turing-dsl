@@ -1,8 +1,15 @@
 require 'spec_helper'
+require 'tempfile'
 describe CLI do
   before(:each) do
     class TestInjectOfSleep
-      def enter
+      def enter(state = :A)
+      end
+
+      def move_right
+      end
+
+      def move_left
       end
     end
     @base = TestInjectOfSleep.new

@@ -3,9 +3,9 @@ module CLI
   include Aquarium::DSL
 
   def self.extended(base)
-    base.speed = 1
+    base.speed = 1.0
 
-    around :calls_to => :enter, :on_object => base do |jp, object, *args|
+    before :calls_to => :enter, :on_object => base do |jp, object, *args|
       sleep object.speed
     end
   end

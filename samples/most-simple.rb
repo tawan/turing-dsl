@@ -32,4 +32,4 @@ Machine.defined_as(:simple) do
       enter :A
     end
   end
-end.enter :A
+end
