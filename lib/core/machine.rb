@@ -21,7 +21,7 @@ class Machine
     end
   end
 
-  attr_reader :initial_state
+  attr_reader :initial_state, :tape
   attr_accessor :position
 
   def head_at_position(position)

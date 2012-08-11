@@ -11,6 +11,10 @@ describe CLI do
 
       def move_left
       end
+
+      def tape
+        "test tape"
+      end
     end
     @base = TestInjectOfSleep.new
     @base.extend CLI
@@ -24,5 +28,18 @@ describe CLI do
     @base.speed = 2.0
     @base.enter
     (Time.now - start_time).should be > 0.1
+  end
+
+  it "should display the tape" do
+    @base.output_target = Tempfile.new("cli_spec_example")
+    @base.enter
+    @base.output_target.rewind
+    @base.output_target.readline.should eq(@base.tape)
+  end
+
+  it "should display always on the same line" do
+    @base.output_target = Tempfile.new("cli_spec_example")
+    @base.enter
+    @base.output_target.readline.should eq(@base.tape)
   end
 end
