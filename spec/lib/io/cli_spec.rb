@@ -18,7 +18,7 @@ class MockedBase
   end
 
   def write(sym)
-   
+
   end
 
   def position
@@ -50,36 +50,34 @@ describe CLI::OutputSettings do
     @base.output_target = Tempfile.new "cli_spec_output"
   end
 
-  it "log movements and changes of the tape"  do
-    log_message = "Entered state #{ lambda { @base.current_state.to_s } }..."
-    @base.log :enter => log_message
-    @base.enter
-    @base.output_target.rewind
-    @base.output_target.readline.should eq(log_message)
-  end
-
   it "should log a write operation" do
     @base.write "1"
     @base.output_target.rewind
+    @base.output_target.readline
+    @base.output_target.readline
     @base.output_target.readline.should eq("Written t on current position...")
   end
 
   it "should log a move operation" do
     @base.move_left
     @base.output_target.rewind
+    @base.output_target.readline
+    @base.output_target.readline
     @base.output_target.readline.should eq("Moved 1 position to the left...")
 
     @base.output_target = Tempfile.new "cli_spec_output"
     @base.move_right
     @base.output_target.rewind
+    @base.output_target.readline
+    @base.output_target.readline
     @base.output_target.readline.should eq("Moved 1 position to the right...")
   end
 
-  it "should log into the first line always, and override the previous log statement" do
-    @base.move_right
+  it "should print position, tape and log message all at once" do
     @base.move_left
-    @base.move_right
     @base.output_target.rewind
+    @base.output_target.readline.should eq("\u2B07\n")
+    @base.output_target.readline.should eq("test tape\n")
     @base.output_target.readline.should eq("Moved 1 position to the left...")
   end
 end

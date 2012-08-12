@@ -21,10 +21,12 @@ module CLI
   module OutputSettings
 
     attr_reader :output_target
+    attr_accessor :clear_on_update
 
     def self.extended(base)
       base.extend Aquarium::DSL
       base.output_target = $stdout
+      base.clear_on_update = false
 
       base.log(
         :move_right => "Moved 1 position to the right...",
@@ -38,19 +40,25 @@ module CLI
 
     def output_target=(target)
       @output_target = target
+      @output_target.set_encoding 'UTF-8'
     end
 
     def log(map)
       map.each do |method, message|
         after :calls_to => method, :on_object => self do |jp, object, *args|
-          print message
+          update message
         end
       end
     end
 
-    def print(stream)
+    def update(stream)
+      system 'clear' if clear_on_update
+
+      output_target.print " " * position + "\u2B07\n"
+      output_target.print tape + "\n"
+
       if stream.is_a? Hash
-        args = stream[:args].map { |arg| arg.call if arg.is_a? Proc }
+        args = stream[:args].map { |arg| arg.is_a?(Proc) ? arg.call : arg }
         output_target.write stream[:format] % args
       else
         output_target.write stream
