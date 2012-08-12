@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'tempfile'
 
 class MockedBase
+  attr_reader :tape
+
   def enter(state = :A)
   end
 
@@ -13,6 +15,14 @@ class MockedBase
 
   def tape
     "test tape"
+  end
+
+  def write(sym)
+   
+  end
+
+  def position
+    0
   end
 end
 
@@ -49,9 +59,9 @@ describe CLI::OutputSettings do
   end
 
   it "shoud log a write operation" do
-    @base.tape[0] = "1"
+    @base.write "1"
     @base.output_target.rewind
-    @base.output_target.readline.should eq("Written 1 on current position...")
+    @base.output_target.readline.should eq("Written t on current position...")
   end
 
   it "shoud log a move operation" do

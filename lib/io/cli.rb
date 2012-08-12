@@ -25,6 +25,15 @@ module CLI
     def self.extended(base)
       base.extend Aquarium::DSL
       base.output_target = $stdout
+
+      base.log(
+        :move_right => "Moved 1 position to the right...",
+        :move_left => "Moved 1 position to the left...",
+        :write => {
+          :format => "Written %s on current position...",
+          :args => [ lambda { base.tape[base.position] } ]
+        }
+      )
     end
 
     def output_target=(target)
@@ -40,7 +49,12 @@ module CLI
     end
 
     def print(stream)
-      output_target.write stream
+      if stream.is_a? Hash
+        args = stream[:args].map { |arg| arg.call if arg.is_a? Proc }
+        output_target.write stream[:format] % args
+      else
+        output_target.write stream
+      end
     end
   end
 end
