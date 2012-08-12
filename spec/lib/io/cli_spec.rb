@@ -1,21 +1,23 @@
 require 'spec_helper'
 require 'tempfile'
+
+class MockedBase
+  def enter(state = :A)
+  end
+
+  def move_right
+  end
+
+  def move_left
+  end
+
+  def tape
+    "test tape"
+  end
+end
+
 describe CLI::SpeedSettings do
   before(:each) do
-    class MockedBase
-      def enter(state = :A)
-      end
-
-      def move_right
-      end
-
-      def move_left
-      end
-
-      def tape
-        "test tape"
-      end
-    end
     @base = MockedBase.new
     @base.extend CLI::SpeedSettings
   end
@@ -29,4 +31,7 @@ describe CLI::SpeedSettings do
     @base.enter
     (Time.now - start_time).should be > 0.1
   end
+end
+
+describe CLI::OutputSettings do
 end
