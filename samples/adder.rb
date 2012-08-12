@@ -36,4 +36,4 @@ Machine.defined_as(:adder) do
       erase
     end
   end
-end.enter 1
+end
