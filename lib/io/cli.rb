@@ -26,6 +26,7 @@ module CLI
       base.extend Aquarium::DSL
       base.output_target = $stdout
     end
+
     def output_target=(target)
       @output_target = target
     end

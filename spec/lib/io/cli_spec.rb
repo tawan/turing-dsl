@@ -37,14 +37,31 @@ describe CLI::OutputSettings do
   before(:each) do
     @base = MockedBase.new
     @base.extend CLI::OutputSettings
+    @base.output_target = Tempfile.new "cli_spec_output"
   end
 
   it "log movements and changes of the tape"  do
-    @base.output_target = Tempfile.new "cli_spec_output"
     log_message = "Entered state #{ lambda { @base.current_state.to_s } }..."
     @base.log :enter => log_message
     @base.enter
     @base.output_target.rewind
     @base.output_target.readline.should eq(log_message)
+  end
+
+  it "shoud log a write operation" do
+    @base.tape[0] = "1"
+    @base.output_target.rewind
+    @base.output_target.readline.should eq("Written 1 on current position...")
+  end
+
+  it "shoud log a move operation" do
+    @base.move_left
+    @base.output_target.rewind
+    @base.output_target.readline.should eq("Moved 1 position to the left...")
+
+    @base.output_target = Tempfile.new "cli_spec_output"
+    @base.move_right
+    @base.output_target.rewind
+    @base.output_target.readline.should eq("Moved 1 position to the right...")
   end
 end
