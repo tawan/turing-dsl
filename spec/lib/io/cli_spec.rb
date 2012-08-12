@@ -74,4 +74,12 @@ describe CLI::OutputSettings do
     @base.output_target.rewind
     @base.output_target.readline.should eq("Moved 1 position to the right...")
   end
+
+  it "should log into the first line always, and override the previous log statement" do
+    @base.move_right
+    @base.move_left
+    @base.move_right
+    @base.output_target.rewind
+    @base.output_target.readline.should eq("Moved 1 position to the left...")
+  end
 end
