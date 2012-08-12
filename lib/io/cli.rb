@@ -8,7 +8,7 @@ module CLI
     def self.extended(base)
       base.speed = 1.0
 
-      before :calls_to => :enter, :on_object => base do |jp, object, *args|
+      before :calls_to => [:move_left, :move_right, :write], :on_object => base do |jp, object, *args|
         sleep object.speed
       end
     end
