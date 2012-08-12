@@ -39,4 +39,12 @@ describe CLI::OutputSettings do
     @base.extend CLI::OutputSettings
   end
 
+  it "log movements and changes of the tape"  do
+    @base.output_target = Tempfile.new "cli_spec_output"
+    log_message = "Entered state #{ lambda { @base.current_state.to_s } }..."
+    @base.log :enter => log_message
+    @base.enter
+    @base.output_target.rewind
+    @base.output_target.readline.should eq(log_message)
+  end
 end

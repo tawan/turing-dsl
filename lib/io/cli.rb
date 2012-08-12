@@ -19,17 +19,23 @@ module CLI
   end
 
   module OutputSettings
+
     attr_reader :output_target
+
     def self.extended(base)
+      base.extend Aquarium::DSL
       base.output_target = $stdout
     end
     def output_target=(target)
       @output_target = target
     end
 
-    def print_tape
-      print tape.to_s + "\r"
-      output_target.flush
+    def log(map)
+      map.each do |method, message|
+        after :calls_to => method, :on_object => self do |jp, object, *args|
+          print message
+        end
+      end
     end
 
     def print(stream)
