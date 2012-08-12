@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'tempfile'
-describe CLI do
+describe CLI::SpeedSettings do
   before(:each) do
     class MockedBase
       def enter(state = :A)
@@ -17,7 +17,7 @@ describe CLI do
       end
     end
     @base = MockedBase.new
-    @base.extend CLI
+    @base.extend CLI::SpeedSettings
   end
   it "should have a speed" do
     @base.speed.should_not be nil
