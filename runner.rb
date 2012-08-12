@@ -27,6 +27,7 @@ require file
 m = Machine.find
 m.extend CLI::SpeedSettings
 m.extend CLI::OutputSettings
+m.clear_on_update = true
 m.speed = options[:speed].to_f unless options[:speed].nil?
 m.enter(m.initial_state)
 

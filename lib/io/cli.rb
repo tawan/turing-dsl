@@ -55,7 +55,7 @@ module CLI
       system 'clear' if clear_on_update
 
       output_target.print " " * position + "\u2B07\n"
-      output_target.print tape + "\n"
+      output_target.print tape.to_s + "\n"
 
       if stream.is_a? Hash
         args = stream[:args].map { |arg| arg.is_a?(Proc) ? arg.call : arg }
