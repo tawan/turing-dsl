@@ -58,13 +58,13 @@ describe CLI::OutputSettings do
     @base.output_target.readline.should eq(log_message)
   end
 
-  it "shoud log a write operation" do
+  it "should log a write operation" do
     @base.write "1"
     @base.output_target.rewind
     @base.output_target.readline.should eq("Written t on current position...")
   end
 
-  it "shoud log a move operation" do
+  it "should log a move operation" do
     @base.move_left
     @base.output_target.rewind
     @base.output_target.readline.should eq("Moved 1 position to the left...")
