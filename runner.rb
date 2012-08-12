@@ -18,15 +18,15 @@ OptionParser.new do |opts|
   end
   
 end.parse!
+
 Signal.trap("INT") {puts "prodded me" ; exit}
 
-
-p options
 file = ARGV[0]
-puts file
 require file
+
 m = Machine.find
-m.extend CLI
+m.extend CLI::SpeedSettings
+m.extend CLI::OutputSettings
 m.speed = options[:speed].to_f unless options[:speed].nil?
 m.enter(m.initial_state)
 
