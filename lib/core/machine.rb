@@ -65,7 +65,7 @@ class Machine
   end
 
   def erase
-    @tape[self.position] = @tape.blank_symbol
+    write @tape.blank_symbol
   end
 
   def enter(state)
