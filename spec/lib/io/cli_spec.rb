@@ -34,4 +34,9 @@ describe CLI::SpeedSettings do
 end
 
 describe CLI::OutputSettings do
+  before(:each) do
+    @base = MockedBase.new
+    @base.extend CLI::OutputSettings
+  end
+
 end
