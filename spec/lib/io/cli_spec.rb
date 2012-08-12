@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'tempfile'
 describe CLI do
   before(:each) do
-    class TestInjectOfSleep
+    class MockedBase
       def enter(state = :A)
       end
 
@@ -16,7 +16,7 @@ describe CLI do
         "test tape"
       end
     end
-    @base = TestInjectOfSleep.new
+    @base = MockedBase.new
     @base.extend CLI
   end
   it "should have a speed" do
