@@ -13,11 +13,18 @@ class Tape
     end
   end
 
-  attr_accessor :blank_symbol, :input_symbols
+  attr_accessor :input_symbols
+  attr_reader :blank_symbol
 
   def initialize
     @pos_str = ""
     @neg_str = ""
+  end
+
+  def blank_symbol=(sym)
+    @pos_str = sym
+    @neg_str = sym
+    @blank_symbol = sym
   end
 
   def method_missing(method_name, *args, &block)
@@ -37,19 +44,19 @@ class Tape
     end
   end
 
-  def [](position)
+  def [](pos)
     @pos_str = blank_symbol and return blank_symbol if str.empty?
-    if (position >= 0)
-      return blank_symbol if @pos_str[position].nil?
-      return @pos_str[position]
+    if (pos >= 0)
+      @pos_str << blank_symbol * (pos - @pos_str.length + 2) if pos + 1 >= @pos_str.length
+      return @pos_str[pos]
     else
-      return blank_symbol if @neg_str[position.abs - 1].nil?
-      return @neg_str[position.abs - 1]
+       @neg_str << blank_symbol * (pos.abs - @neg_str.length + 1) if pos.abs >= @neg_str.length
+      return @neg_str[pos.abs - 1]
     end
   end
 
   def []=(position, symbol)
-    validate!(symbol) 
+    validate!(symbol)
     if position >= 0
       diff = position - @pos_str.size
       @pos_str << blank_symbol * diff if diff > 0
@@ -88,7 +95,7 @@ class Tape
 
 
   def validate!(symbol)
-    if alphabet[symbol].nil? 
+    if alphabet[symbol].nil?
       raise StandardError,
         "#{symbol} is not in the accepted alphabet (#{alphabet})of the defined machhine!"
     end

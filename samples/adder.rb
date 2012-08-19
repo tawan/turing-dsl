@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/core/machine.rb')
 
 Machine.defined_as(:adder) do
   head_at_position(3).of Tape.with_blank_symbol("0").and_input_symbols("1") { "01101100" }
-  
+
   in_state 1 do
     on "0" do
       write "1"

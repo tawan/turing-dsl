@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../lib/core/machine.rb')
 
 Machine.defined_as(:simple) do
-  head_at_position(0).of Tape.with_blank_symbol("0").and_input_symbols("1")
+  head_at_position(0).of Tape.with_blank_symbol("0").and_input_symbols("1") { "0" }
 
   in_state :A do
     on "0" do

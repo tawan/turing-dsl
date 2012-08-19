@@ -16,7 +16,7 @@ OptionParser.new do |opts|
   opts.on("-s SPEED", "--speed SPEED", "The machine will operate in given speed (default is 1)") do |speed|
     options[:speed] = speed
   end
-  
+
 end.parse!
 
 Signal.trap("INT") {puts "prodded me" ; exit}

@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../lib/core/machine.rb')
 
 Machine.defined_as(:successor) do
-  head_at_position(7).of Tape.with_blank_symbol("0").and_input_symbols("1") { "11111111000" }
-  
+  head_at_position(4).of Tape.with_blank_symbol("0").and_input_symbols("1") { "11100" }
+
   in_state 1 do
     on "0" do
     end

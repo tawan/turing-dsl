@@ -12,12 +12,19 @@ describe Tape do
   end
 
   it "should have a length" do
-    @sample.length.should be 2
+    @sample.length.should be 3
+  end
+
+  it "should expand when an edge is read" do
+    @sample[0]
+    @sample.to_s.should eq("001")
+    @sample[-2]
+    @sample.to_s.should eq("00001")
   end
 
   it "should transform a given position to its internal position" do
-    @sample.transform(1).should be 1
-    @sample.transform(2).should be 2
+    @sample.transform(1).should be 2
+    @sample.transform(2).should be 3
 
     @sample[-1] = "1"
     @sample.transform(2).should be 3
