@@ -14,7 +14,14 @@ class MockedBase
   end
 
   def tape
-    "test tape"
+    t = "test tape"
+    class << t
+      def transform(*args)
+        0
+      end
+    end
+
+    t
   end
 
   def write(sym)

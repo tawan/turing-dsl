@@ -15,6 +15,15 @@ describe Tape do
     @sample.length.should be 2
   end
 
+  it "should transform a given position to its internal position" do
+    @sample.transform(1).should be 1
+    @sample.transform(2).should be 2
+
+    @sample[-1] = "1"
+    @sample.transform(2).should be 3
+    @sample.transform(-1).should be 0
+  end
+
   it "should have input symbols" do
     Tape.with_input_symbols("1").input_symbols.should eq('1')
   end
