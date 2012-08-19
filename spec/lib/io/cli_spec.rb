@@ -39,7 +39,10 @@ describe CLI::SpeedSettings do
     start_time = Time.now
     @base.speed = 2.0
     @base.enter
-    (Time.now - start_time).should be > 0.1
+    @base.move_left
+    @base.move_right
+    @base.write "1"
+    (Time.now - start_time).should be > 0.3
   end
 end
 
