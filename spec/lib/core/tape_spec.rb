@@ -11,6 +11,10 @@ describe Tape do
     Tape.with_blank_symbol('0').blank_symbol.should eq('0')
   end
 
+  it "should have a length" do
+    @sample.length.should be 2
+  end
+
   it "should have input symbols" do
     Tape.with_input_symbols("1").input_symbols.should eq('1')
   end

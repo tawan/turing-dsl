@@ -69,6 +69,10 @@ class Tape
     str
   end
 
+  def length
+    @pos_str.length + @neg_str.length
+  end
+
   private
 
   def configure(new_str)
