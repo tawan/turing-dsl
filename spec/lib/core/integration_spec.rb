@@ -13,7 +13,7 @@ describe "Integration of" do
 end
 
 describe "Sample implementation" do
-  it "should adds two numbers" do
+  it "should add two numbers" do
     Machine.defined_as(:adder) do
       head_at_position(3).of Tape.with_blank_symbol("0").and_input_symbols("1") { "01101100" }
 
@@ -55,8 +55,39 @@ describe "Sample implementation" do
     adder = Machine.find(:adder)
     adder.tape.to_s.should eq("001101100")
 
-    adder.enter adder.initial_state 
+    adder.enter adder.initial_state
 
     adder.tape.to_s.should eq("001111000")
+  end
+
+  it "write over the edges" do
+    Machine.defined_as(:edge_case) do
+      head_at_position(0).of Tape.with_blank_symbol("0").and_input_symbols("1") { "0" }
+      in_state :A do
+        on "0" do
+          write "1"
+          move_left
+          enter :B
+        end
+      end
+
+      in_state :B do
+        on "0" do
+          write "1"
+          move_left
+          enter :B
+        end
+      end
+
+      in_state :C do
+        on "0" do
+          move_left
+          write "1"
+        end
+      end
+    end
+
+    edge_case = Machine.find :edge_case
+    edge_case.enter edge_case.initial_state
   end
 end
